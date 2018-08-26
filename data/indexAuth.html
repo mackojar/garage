@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Garage doors</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="google-signin-client_id" content="527579824642-r7sn8ppsfgnr7oq02s0ko3bihlen385n.apps.googleusercontent.com">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+		integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+</head>
+<body>
+	<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+	<div class="container-fluid">
+		<div class="card bg-light">
+			<div class="card-header">Garage doors</div>
+			<div class="card-body">
+				<h4 class="card-title">Authenticate using your Google account</h4>
+				<div class="g-signin2" data-onsuccess="onSignIn"></div>
+				<div id="myname"></div>
+			</div>
+		</div>
+	</div>
+	<script>
+function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  console.log('Name: ' + profile.getName());
+  console.log('Image URL: ' + profile.getImageUrl());
+  console.log('Email: ' + profile.getEmail());
+  document.getElementById("myname").innerHTML = profile.getName();
+}
+	</script>
+</body>
+</html>
