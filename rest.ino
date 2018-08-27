@@ -10,31 +10,35 @@ String getContentType(String filename) {
 
 bool handleFileRead(String path) { 
   if( !redirectIfNoAuth()) {
-    Serial.println("handleFileRead: " + path);
     if( path.compareTo("/") == 0) {
-      path += "/garage/index.html";
+      path = "/auth.html";
     }
+    Serial.println("handleFileRead: " + path);
     String contentType = getContentType(path);
     if (SPIFFS.exists(path)) {
       File file = SPIFFS.open(path, "r");
       size_t sent = server.streamFile(file, contentType);
       file.close();
       return true;
+    } else {
+      Serial.println("\tFile Not Found");
+      return false;
     }
-    Serial.println("\tFile Not Found");
-    return false;
   }
 }
 
 void moveDoors() {
   if( isAuthorized()) {
-    server.sendHeader("Location", "/resultOK.html", true);
+    server.sendHeader("Location", "/garage/resultOK.html", true);
     server.send(302, "text/plane","Move door requested...");
     digitalWrite( PIN_GARAGE_DOOR, HIGH);
     digitalWrite( LED_BUILTIN, LOW);
     delay(1000);
     digitalWrite( PIN_GARAGE_DOOR, LOW);
     digitalWrite( LED_BUILTIN, HIGH);
+  } else {
+    server.sendHeader("Location", "/garage/resultFailed.html", true);
+    server.send(302, "text/plane","Move door requested...");
   }
 }
 
