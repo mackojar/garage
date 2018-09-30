@@ -42,9 +42,24 @@ void moveDoors() {
   }
 }
 
-void config_rest_server_routing() {
+void getRainStatus() {
+  if( isAuthorized()) {
+    String result = "{'rain':";
+    result.concat( digitalRead( PIN_RAIN)==LOW ? "1": "0");
+    result.concat( "}");
+    server.send(200, "application/json", result);
+  } else {
+    server.sendHeader("Location", "/auth.html");
+    server.send(302);
+  }
+}
+
+void initREST() {
   server.on("/api/moveDoors", HTTP_POST, []() {
     moveDoors();
+  });
+  server.on("/api/rainStatus", HTTP_GET, []() {
+    getRainStatus();
   });
   server.onNotFound([]() {
     if (!handleFileRead(server.uri())) {
