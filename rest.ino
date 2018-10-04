@@ -44,7 +44,7 @@ void moveDoors() {
 
 void getRainStatus() {
   if( isAuthorized()) {
-    String result = "{'rain':";
+    String result = "{\"rain\":";
     result.concat( digitalRead( PIN_RAIN)==LOW ? "1": "0");
     result.concat( "}");
     server.send(200, "application/json", result);

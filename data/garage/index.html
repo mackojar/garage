@@ -6,6 +6,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
 		integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+	<script
+		src="https://code.jquery.com/jquery-3.3.1.min.js"
+		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+		crossorigin="anonymous"></script>
 </head>
 <body>
 	<div class="container-fluid">
@@ -18,6 +22,26 @@
 				</form>
 			</div>
 		</div>
+		<div class="card bg-light">
+			<div class="card-header">Watering system</div>
+			<div class="card-body">
+					<h4 class="card-title">Rain detected</h4>
+					<input id="rainInfo" type="text" class="form-control" value="Unknown" readonly/>
+			</div>
+		</div>
 	</div>
+	<script>
+		$.ajax({
+			url: "http://garage.debowa1d.pl/api/rainStatus"
+		}).done(function(response) {
+			if( response.rain == 0) {
+				$('#rainInfo').val('No');
+			} else if( response.rain == 1) {
+				$('#rainInfo').val('Yes');
+			} else {
+				$('#rainInfo').val('Error');
+			}
+		});
+	</script>
 </body>
 </html>
